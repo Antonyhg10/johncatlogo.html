@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>John Tech - Catálogo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#004AAD;
+    --blue-dark:#00316E;
+    --blue-light:#EAF1FC;
+    --blue-tint:#F3F7FD;
+    --ink:#12213A;
+    --muted:#5B6B84;
+    --border:#E2E8F0;
+    --bg:#F5F7FB;
+    --surface:#FFFFFF;
+    --whatsapp:#25D366;
+    --whatsapp-dark:#128C4A;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Inter',Arial,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    padding-bottom:96px;
+    -webkit-tap-highlight-color:transparent;
+  }
+  h1,h2,h3,.brand-font{font-family:'Poppins',sans-serif;}
+  img{-webkit-user-drag:none;user-select:none;}
+
+  /* HEADER */
+  header{
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    position:sticky; top:0; z-index:40;
+  }
+  .header-inner{
+    max-width:1200px; margin:0 auto;
+    display:flex; align-items:center; justify-content:center;
+    padding:16px 20px;
+  }
+  .logo-wrap{display:flex; align-items:center; gap:14px;}
+  .logo-wrap img{height:64px; width:auto; display:block;}
+  .logo-fallback{
+    display:none; height:64px; width:64px; border-radius:16px;
+    background:linear-gradient(135deg,var(--blue),var(--blue-dark));
+    color:#fff; align-items:center; justify-content:center;
+    font-family:'Poppins',sans-serif; font-weight:800; font-size:22px;
+  }
+  @media(min-width:640px){
+    .logo-wrap img{height:76px;}
+    .logo-fallback{height:76px; width:76px;}
+  }
+
+  /* HERO */
+  .hero{
+    max-width:1200px; margin:0 auto; padding:22px 20px 4px;
+    text-align:center;
+  }
+  .hero h1{font-size:22px; margin:0 0 6px; font-weight:700;}
+  .hero p{color:var(--muted); margin:0; font-size:13.5px; line-height:1.5;}
+  .availability-note{
+    max-width:1200px; margin:8px auto 0; padding:0 20px;
+    text-align:center; color:var(--muted); font-size:11.5px; font-style:italic;
+  }
+
+  /* TRUST BADGES */
+  .trust-strip{
+    max-width:1200px; margin:14px auto 0; padding:0 20px 2px;
+    display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;
+  }
+  .trust-strip::-webkit-scrollbar{display:none;}
+  .trust-badge{
+    flex:0 0 auto; display:flex; align-items:center; gap:6px;
+    background:var(--blue-light); color:var(--blue-dark);
+    padding:8px 13px; border-radius:20px; font-size:11.5px; font-weight:700; white-space:nowrap;
+  }
+  .trust-badge svg{width:15px; height:15px; flex:none;}
+
+  /* SEARCH + SORT */
+  .search-sort-wrap{
+    max-width:1200px; margin:16px auto 0; padding:0 20px;
+    display:flex; gap:10px; flex-wrap:wrap;
+  }
+  .search-box{position:relative; flex:1 1 220px;}
+  .search-box svg{
+    position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:17px; height:17px; color:var(--muted); pointer-events:none;
+  }
+  .search-box input{
+    width:100%; padding:12px 40px 12px 40px; border-radius:14px;
+    border:1.5px solid var(--border); font-size:14px;
+    font-family:'Inter',sans-serif; background:var(--surface); color:var(--ink);
+  }
+  .search-box input:focus{outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,74,173,.12);}
+  .search-clear{
+    display:none; position:absolute; right:7px; top:50%; transform:translateY(-50%);
+    width:26px; height:26px; border-radius:50%; border:none; background:var(--blue-light);
+    color:var(--blue-dark); align-items:center; justify-content:center; cursor:pointer; font-size:13px;
+  }
+  .sort-select{
+    flex:1 1 160px; padding:12px 14px; border-radius:14px; border:1.5px solid var(--border);
+    font-size:13.5px; font-family:'Inter',sans-serif; background:var(--surface); color:var(--ink); font-weight:600;
+  }
+
+  /* TABS */
+  .tabs{
+    max-width:1200px; margin:18px auto 6px; padding:0 20px;
+    display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+  }
+  .tab-btn{
+    background:var(--surface); border:1.5px solid var(--border);
+    color:var(--ink); padding:9px 18px 9px 14px; border-radius:22px;
+    font-weight:600; font-size:14px; cursor:pointer;
+    font-family:'Inter',sans-serif;
+    display:flex; align-items:center; gap:7px;
+  }
+  .tab-btn img{height:16px; width:16px; object-fit:contain;}
+  .tab-btn.active{background:var(--blue); border-color:var(--blue); color:#fff;}
+
+  /* SERIES DIVIDER (separa generaciones dentro de una marca) */
+  .series-label{
+    font-size:12px; font-weight:800; letter-spacing:1px; text-transform:uppercase;
+    color:var(--muted); margin:20px 0 10px; padding-bottom:7px; border-bottom:2px dashed var(--border);
+  }
+  .grid + .series-label{margin-top:26px;}
+
+  /* SEARCH RESULTS */
+  .search-results-header{padding:2px 2px 14px; font-size:13.5px; color:var(--muted);}
+  .search-results-header strong{color:var(--ink);}
+  .search-empty{padding:36px 12px; text-align:center; color:var(--muted); font-size:14px; line-height:1.7;}
+  .search-empty a{color:var(--whatsapp-dark); font-weight:700; text-decoration:none;}
+
+  /* GRID */
+  .brand-section{max-width:1200px; margin:0 auto; padding:24px 20px 6px;}
+  .brand-section > h2{
+    font-size:17px; margin:0 0 4px; color:var(--blue-dark);
+    display:flex; align-items:center; gap:9px;
+  }
+  .brand-section > h2 img{height:22px; width:22px; object-fit:contain;}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(158px,1fr));
+    gap:14px;
+  }
+  .card{
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); padding:12px; cursor:pointer;
+    position:relative; transition:box-shadow .15s, transform .15s;
+  }
+  .card:active{transform:scale(.97);}
+  .card:hover{box-shadow:0 6px 18px rgba(0,74,173,0.12); transform:translateY(-2px);}
+  .card-logo{
+    position:absolute; top:10px; right:10px; height:18px; width:18px;
+    object-fit:contain; opacity:.9; z-index:2;
+  }
+  .card-img{
+    width:100%; aspect-ratio:1/1; border-radius:12px;
+    background:var(--blue-tint); display:flex; align-items:center; justify-content:center;
+    overflow:hidden; margin-bottom:10px; position:relative;
+  }
+  .card-img img{width:100%; height:100%; object-fit:cover;}
+  .card-img svg{width:44%; height:44%; color:var(--blue); opacity:.5;}
+  .card-name{font-weight:700; font-size:14px; margin:0 0 3px; line-height:1.25;}
+  .card-cap{font-size:11.5px; color:var(--muted); margin:0 0 9px;}
+
+  /* Precio llamativo, con pinta de botón */
+  .card-price{
+    display:flex; align-items:center; justify-content:space-between; gap:6px;
+    background:var(--blue-light); color:var(--blue-dark);
+    padding:9px 12px; border-radius:12px;
+    box-shadow:0 3px 10px rgba(0,74,173,.14);
+  }
+  .card-price .cta-text{display:flex; flex-direction:column; line-height:1.15;}
+  .card-price .cta-label{font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; opacity:.75;}
+  .card-price .cta-amount{font-size:15px; font-weight:800;}
+  .card-price .cta-arrow{font-size:17px; font-weight:700; opacity:.8;}
+
+  /* ===== TEMAS POR MARCA ===== */
+
+  /* iPhone → "liquid glass": vidrio esmerilado, brillo diagonal, monocromo */
+  .theme-iphone.card{
+    border-radius:20px; overflow:hidden;
+    background:linear-gradient(160deg,rgba(255,255,255,.9),rgba(235,239,245,.55));
+    backdrop-filter:blur(18px) saturate(180%);
+    -webkit-backdrop-filter:blur(18px) saturate(180%);
+    border:1px solid rgba(255,255,255,.8);
+    box-shadow:0 10px 30px rgba(30,41,59,.12), inset 0 1px 0 rgba(255,255,255,.7);
+  }
+  .theme-iphone.card::after{
+    content:""; position:absolute; top:-40%; left:-25%; width:55%; height:180%;
+    background:linear-gradient(120deg, rgba(255,255,255,.55), rgba(255,255,255,0) 65%);
+    transform:rotate(18deg); pointer-events:none;
+  }
+  .theme-iphone.card:hover{box-shadow:0 14px 34px rgba(30,41,59,.18), inset 0 1px 0 rgba(255,255,255,.8);}
+  .theme-iphone .card-img{background:linear-gradient(160deg,#eef1f6,#dfe4ec);}
+  .theme-iphone .card-price{background:#1d1d1f; color:#fff;}
+  .brand-section.theme-iphone > h2{color:#1d1d1f;}
+  .tab-btn.theme-iphone.active{background:#1d1d1f; border-color:#1d1d1f;}
+  .modal.theme-iphone .modal-price{color:#1d1d1f;}
+  .modal.theme-iphone .variant-pill.active{background:#1d1d1f; border-color:#1d1d1f;}
+  .modal.theme-iphone .modal-carousel{background:linear-gradient(160deg,#eef1f6,#dfe4ec);}
+
+  /* Samsung → estilo Android / material: bloques sólidos, esquina en ribete */
+  .theme-samsung.card{
+    border-radius:14px; overflow:hidden;
+    background:var(--surface); border:1px solid var(--border);
+    border-top:5px solid #1428A0;
+    box-shadow:0 6px 16px rgba(20,40,160,.12);
+  }
+  .theme-samsung.card::after{
+    content:""; position:absolute; top:0; right:0; width:0; height:0;
+    border-style:solid; border-width:0 24px 24px 0;
+    border-color:transparent #6C63FF transparent transparent; opacity:.85;
+  }
+  .theme-samsung.card:hover{box-shadow:0 10px 24px rgba(20,40,160,.22); transform:translateY(-3px);}
+  .theme-samsung .card-img{background:linear-gradient(160deg,#EEF1FF,#E3E7FF);}
+  .theme-samsung .card-name{font-weight:800;}
+  .theme-samsung .card-price{background:linear-gradient(120deg,#1428A0,#6C63FF); color:#fff;}
+  .brand-section.theme-samsung > h2{color:#1428A0;}
+  .tab-btn.theme-samsung.active{background:linear-gradient(120deg,#1428A0,#6C63FF); border-color:#1428A0;}
+  .modal.theme-samsung .modal-price{background:linear-gradient(120deg,#1428A0,#6C63FF); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .modal.theme-samsung .variant-pill.active{background:linear-gradient(120deg,#1428A0,#6C63FF); border-color:#1428A0;}
+
+  /* Pixel Pro → estilo Google: muy redondeado, acento multicolor */
+  .theme-pixel.card{
+    border-radius:24px;
+    background:linear-gradient(180deg,#FAFBFF,#FFFFFF);
+    border:1px solid var(--border);
+    box-shadow:0 6px 16px rgba(20,20,30,.07);
+  }
+  .theme-pixel.card::before{
+    content:""; position:absolute; top:14px; left:14px; width:8px; height:8px; border-radius:50%;
+    background:#4285F4;
+    box-shadow:11px 0 0 #EA4335, 22px 0 0 #FBBC05, 33px 0 0 #34A853;
+  }
+  .theme-pixel .card-img{margin-top:8px;}
+  .theme-pixel .card-name{position:relative; padding-bottom:9px;}
+  .theme-pixel .card-name::after{
+    content:""; position:absolute; left:0; bottom:0; width:32px; height:3px; border-radius:3px;
+    background:linear-gradient(90deg,#4285F4,#EA4335,#FBBC05,#34A853);
+  }
+  .theme-pixel .card-price{background:#EEF3FC; color:#1a73e8; border-radius:20px;}
+  .brand-section.theme-pixel > h2{color:#1a73e8;}
+  .tab-btn.theme-pixel.active{background:#1a73e8; border-color:#1a73e8;}
+  .modal.theme-pixel .modal-price{color:#1a73e8;}
+  .modal.theme-pixel .variant-pill.active{background:#1a73e8; border-color:#1a73e8; border-radius:20px;}
+
+  /* MODAL */
+  .overlay{
+    display:none; position:fixed; inset:0; background:rgba(18,33,58,0.55);
+    z-index:100; align-items:flex-end; justify-content:center; padding:0;
+  }
+  .overlay.show{display:flex;}
+  .modal{
+    background:var(--surface); border-radius:22px 22px 0 0; max-width:460px; width:100%;
+    max-height:92vh; overflow-y:auto; position:relative;
+  }
+  @media(min-width:640px){
+    .overlay{align-items:center; padding:16px;}
+    .modal{border-radius:22px; max-height:88vh;}
+  }
+  .modal-close{
+    position:absolute; top:12px; right:12px; width:34px; height:34px; border-radius:50%;
+    background:rgba(255,255,255,.9); border:none; font-size:16px; cursor:pointer; z-index:6;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+  }
+
+  /* Carrusel — una foto por capacidad */
+  .modal-carousel{position:relative; width:100%; aspect-ratio:1/1; background:var(--blue-tint); border-radius:22px 22px 0 0; overflow:hidden;}
+  @media(min-width:640px){ .modal-carousel{border-radius:22px 22px 0 0;} }
+  .carousel-track{
+    display:flex; width:100%; height:100%; overflow-x:auto; scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  }
+  .carousel-track::-webkit-scrollbar{display:none;}
+  .carousel-slide{flex:0 0 100%; scroll-snap-align:center; display:flex; align-items:center; justify-content:center; position:relative;}
+  .carousel-slide img{width:100%; height:100%; object-fit:cover;}
+  .carousel-slide.carousel-fallback svg{width:32%; height:32%; color:var(--blue); opacity:.5;}
+  .carousel-dots{position:absolute; bottom:12px; left:0; right:0; display:flex; justify-content:center; gap:6px; z-index:3; pointer-events:none;}
+  .carousel-dot{width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.55); transition:all .2s; box-shadow:0 1px 2px rgba(0,0,0,.2);}
+  .carousel-dot.active{background:#fff; width:18px; border-radius:5px;}
+
+  .modal-body{padding:22px 22px 26px; text-align:center;}
+  .modal-name{font-size:21px; font-weight:700; margin:0 0 4px;}
+  .modal-cap{font-size:13px; color:var(--muted); margin:0 0 16px;}
+
+  .variant-row{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; justify-content:center;}
+  .variant-pill{
+    border:1.5px solid var(--border); background:var(--surface); color:var(--ink);
+    padding:7px 14px; border-radius:20px; font-size:13px; font-weight:600; cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  .variant-pill.active{background:var(--blue); border-color:var(--blue); color:#fff;}
+
+  .modal-price-label{font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin:0 0 2px;}
+  .modal-price{font-size:38px; font-weight:800; color:var(--blue); margin:2px 0 6px; line-height:1;}
+  @media(min-width:640px){ .modal-price{font-size:42px;} }
+  .modal-availability{font-size:11px; color:var(--muted); font-style:italic; margin:0 0 18px;}
+  .modal-specs{font-size:13.5px; color:var(--ink); line-height:1.6; margin:0 0 20px; white-space:pre-line;}
+  .modal-wa{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    background:var(--whatsapp); color:#fff; text-decoration:none;
+    padding:14px; border-radius:12px; font-weight:700; font-size:14.5px;
+  }
+  .modal-wa svg{width:19px; height:19px; fill:#fff;}
+
+  /* FLOATING WHATSAPP */
+  .wa-float{
+    position:fixed; bottom:20px; right:18px; z-index:60;
+    background:var(--whatsapp); color:#fff; border-radius:50px;
+    display:flex; align-items:center; gap:9px; padding:14px 18px;
+    text-decoration:none; font-weight:700; font-size:14px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.22);
+  }
+  .wa-float svg{width:22px; height:22px; fill:#fff;}
+  .wa-float span{display:none;}
+  @media(min-width:640px){ .wa-float span{display:inline;} }
+
+  .footer-note{
+    text-align:center; margin:30px auto 0; color:var(--muted);
+    font-size:12px; padding:0 20px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <img id="store-logo" src="imagenes/logo.png" alt="John Tech">
+      <div class="logo-fallback" id="logo-fallback">JT</div>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>Catalogo</h1>
+  <p>Explora los modelos, compara capacidades y desliza las fotos — nosotros solo te lo ponemos fácil.</p>
+</div>
+<p class="availability-note">Precios, colores y modelos disponibles pueden variar según existencias.</p>
+
+<div class="trust-strip">
+  <span class="trust-badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z"/></svg>
+    Vidrio templado y case incluidos
+  </span>
+  <span class="trust-badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 0 1-5 5 5 5 0 0 1-5-5V7z"/><path d="M12 16v3M9 21h6"/></svg>
+    Cargador completo incluido
+  </span>
+  <span class="trust-badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="7" width="13" height="9"/><path d="M14 10h4l3 3v3h-7z"/><circle cx="6" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg>
+    Envíos a todo el país
+  </span>
+  <span class="trust-badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 4 6 4 9s-1.5 6.4-4 9c-2.5-2.6-4-6-4-9s1.5-6.4 4-9z"/></svg>
+    Tienda 100% en línea
+  </span>
+</div>
+
+<div class="search-sort-wrap">
+  <div class="search-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="search-input" type="text" placeholder="Busca un modelo, ej. iPhone 12 Pro Max" autocomplete="off" oninput="onSearchInput(this.value)">
+    <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
+  </div>
+  <select class="sort-select" id="sort-select" onchange="onSortChange(this.value)">
+    <option value="default">Orden recomendado</option>
+    <option value="price-asc">Precio: menor a mayor</option>
+    <option value="price-desc">Precio: mayor a menor</option>
+  </select>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div id="sections"></div>
+
+<p class="footer-note">Equipos revisados con garantía.</p>
+
+<a class="wa-float" id="wa-float" target="_blank" rel="noopener">
+  <svg viewBox="0 0 32 32"><path d="M16 0C7.2 0 0 7.2 0 16c0 2.8.7 5.5 2.1 7.9L0 32l8.3-2.2c2.3 1.2 4.9 1.9 7.6 1.9 8.8 0 16-7.2 16-16S24.8 0 16 0zm0 29.3c-2.4 0-4.8-.6-6.9-1.9l-.5-.3-4.9 1.3 1.3-4.8-.3-.5C3.4 20.9 2.7 18.5 2.7 16 2.7 8.7 8.7 2.7 16 2.7S29.3 8.7 29.3 16 23.3 29.3 16 29.3zm7.6-9.6c-.4-.2-2.5-1.2-2.8-1.4-.4-.1-.7-.2-.9.2-.3.4-1 1.4-1.3 1.6-.2.3-.5.3-.9.1-.4-.2-1.7-.6-3.2-2-1.2-1-2-2.4-2.2-2.7-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.7.1-.3.1-.5 0-.7-.1-.2-.9-2.2-1.3-3-.3-.8-.7-.7-.9-.7h-.8c-.3 0-.7.1-1 .5-.4.4-1.4 1.3-1.4 3.3s1.4 3.8 1.6 4.1c.2.3 2.8 4.3 6.8 6 .9.4 1.7.6 2.3.8.9.3 1.8.2 2.4.1.7-.1 2.5-1 2.8-2 .4-1 .4-1.8.3-2-.1-.2-.4-.3-.8-.5z"/></svg>
+  <span>Escríbenos por WhatsApp</span>
+</a>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this) closeModal()">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-carousel">
+      <div class="carousel-track" id="carousel-track"></div>
+      <div class="carousel-dots" id="carousel-dots"></div>
+    </div>
+    <div class="modal-body">
+      <h3 class="modal-name" id="modal-name"></h3>
+      <p class="modal-cap" id="modal-cap"></p>
+      <div class="variant-row" id="variant-row"></div>
+      <p class="modal-price-label">Precio de venta</p>
+      <p class="modal-price" id="modal-price"></p>
+      <p> </p>
+      <p class="modal-availability">El color y la disponibilidad de este modelo pueden variar</p>
+      <p class="modal-specs" id="modal-specs"></p>
+      <a class="modal-wa" id="modal-wa" target="_blank" rel="noopener">
+        <svg viewBox="0 0 32 32"><path d="M16 0C7.2 0 0 7.2 0 16c0 2.8.7 5.5 2.1 7.9L0 32l8.3-2.2c2.3 1.2 4.9 1.9 7.6 1.9 8.8 0 16-7.2 16-16S24.8 0 16 0zm0 29.3c-2.4 0-4.8-.6-6.9-1.9l-.5-.3-4.9 1.3 1.3-4.8-.3-.5C3.4 20.9 2.7 18.5 2.7 16 2.7 8.7 8.7 2.7 16 2.7S29.3 8.7 29.3 16 23.3 29.3 16 29.3zm7.6-9.6c-.4-.2-2.5-1.2-2.8-1.4-.4-.1-.7-.2-.9.2-.3.4-1 1.4-1.3 1.6-.2.3-.5.3-.9.1-.4-.2-1.7-.6-3.2-2-1.2-1-2-2.4-2.2-2.7-.2-.4 0-.6.2-.8.2-.2.4-.5.6-.7.2-.2.3-.4.4-.7.1-.3.1-.5 0-.7-.1-.2-.9-2.2-1.3-3-.3-.8-.7-.7-.9-.7h-.8c-.3 0-.7.1-1 .5-.4.4-1.4 1.3-1.4 3.3s1.4 3.8 1.6 4.1c.2.3 2.8 4.3 6.8 6 .9.4 1.7.6 2.3.8.9.3 1.8.2 2.4.1.7-.1 2.5-1 2.8-2 .4-1 .4-1.8.3-2-.1-.2-.4-.3-.8-.5z"/></svg>
+        Consultar por WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================================
+   JOHN TECH — CATÁLOGO (solo lectura para el cliente)
+   =========================================================================
+   GUÍA RÁPIDA DE EDICIÓN (para el dueño de la tienda):
+
+   1) NÚMERO DE WHATSAPP
+      Cambia el valor de WA_NUMBER más abajo (código de país + número, sin
+      signos ni espacios). Ej: "50497914995".
+
+   2) NOMBRES, CAPACIDADES Y PRECIOS
+      Todo vive en "defaultData". Cada marca es un objeto con "items", y cada
+      item es un arreglo [ "Nombre del modelo", "Capacidad", Precio ].
+      Ej: ["15 Pro Max","256 GB",19990]
+      - El catálogo agrupa automáticamente todas las líneas que compartan el
+        MISMO nombre de modelo en una sola tarjeta con varias capacidades.
+      - El catálogo también separa visualmente las "series" dentro de cada
+        marca usando la primera palabra del nombre (12, 13, S21, A16...), así
+        que no repitas el número de serie con errores de escritura o se
+        creará una separación nueva sin querer.
+      - Para agregar una marca nueva, agrega un objeto nuevo:
+        {brand:"Nombre de la marca", items:[ [...], [...] ]}
+        Se le asigna el estilo azul por defecto (ver BRAND_THEME si quieres
+        darle un estilo propio como a iPhone/Samsung/Pixel Pro).
+
+   3) TEXTO DE ESPECIFICACIONES
+      La línea de specs se genera en DEFAULT_SPECS. Cámbiala ahí si quieres
+      un texto distinto para todos los equipos.
+
+   4) BUSCADOR Y ORDEN
+      Son automáticos: no necesitas configurar nada. El buscador tolera
+      errores de escritura (ej. "ifon" encuentra "iPhone").
+
+   Para las IMÁGENES/LOGOS ver el bloque de instrucciones al final de este
+   archivo y el mensaje que te compartí junto con este código.
+   ========================================================================= */
+
+const WA_NUMBER = "50497914995";
+const DEFAULT_SPECS = "Equipo Semi Usado y Nuevo · Garantía de 30 - 60 días";
+const PHONE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>';
+
+/* Tema visual por marca. Si agregas una marca nueva y quieres un estilo
+   propio, agrégala aquí con la clase "theme-XXXX" y define su CSS arriba. */
+const BRAND_THEME = {
+  "iPhone": "theme-iphone",
+  "Samsung": "theme-samsung",
+  "Pixel Pro": "theme-pixel"
+};
+function themeFor(brand){ return BRAND_THEME[brand] || "theme-default"; }
+
+const defaultData = [
+{brand:"iPhone", items:[
+  ["12 Normal","64 GB",7490],["12 Normal","128 GB",7990],["12 Normal","256 GB",8790],
+  ["12 Pro","256 GB",10990],["12 Pro Max","128 GB",11790],["12 Pro Max","512 GB",13790],
+  ["13 Normal","128 GB",10490],["13 Normal","256 GB",11490],["13 Pro","128 GB",11990],
+  ["13 Pro","256 GB",12990],["13 Pro Max","128 GB",14490],["13 Pro Max","256 GB",15490],
+  ["14 Normal","128 GB",10990],["14 Normal","256 GB",11990],["14 Pro","128 GB",14490],
+  ["14 Pro","256 GB",15490],["14 Plus","128 GB",12490],["14 Plus","256 GB",13490],
+  ["14 Pro Max","128 GB",15990],["14 Pro Max","256 GB",16990],["14 Pro Max","512 GB",17990],
+  ["15 Normal","128 GB",14490],["15 Plus","128 GB",15490],["15 Plus","256 GB",16490],
+  ["15 Pro Max","256 GB",19990],["15 Pro Max","512 GB",20990],["15 Pro Max","1 TB",21990],
+  ["16 Plus","128 GB",19490],["16 Plus","256 GB",20490],["16 Pro","128 GB",20490],
+  ["17 Normal (Nuevo)","256 GB",26490],["17 Air (Nuevo)","256 GB",28490],
+  ["17 Pro Max (Nuevo)","256 GB",40490],["17 Pro Max (Nuevo)","512 GB",45490],["17 Pro Max (Nuevo)","1 TB",51490]
+]},
+{brand:"Samsung", items:[
+  ["A16 (Nuevo)","128 GB",4950],["A36","128 GB",7500],
+  ["S21 Plus","128 GB",7700],["S21 Ultra","128 GB",9700],
+  ["S22 Plus","128 GB",8800],["S22 Plus","256 GB",9800],
+  ["S22 Ultra","128 GB",12000],["S22 Ultra","256 GB",13000],["S22 Ultra","512 GB",14000],
+  ["S23 FE","128 GB",9100],["S23 FE","256 GB",7700],
+  ["S23 Ultra","256 GB",15500],["S23 Ultra","512 GB",16500],
+  ["S24 Ultra","256 GB",19500],["S24 Ultra","512 GB",20500],["S24 Ultra","1 TB",21500],
+  ["S25 Ultra","512 GB",25000],["S26 Ultra (Nuevo)","512 GB",34500]
+]},
+{brand:"Pixel Pro", items:[
+  ["6 Pro","128 GB",7950],["6 Pro","256 GB",8950],
+  ["7 Pro","128 GB",9500],["7 Pro","256 GB",10500],
+  ["8 Pro","128 GB",12950]
+]}
+];
+
+/* Agrupa automáticamente todas las capacidades de un mismo modelo en una
+   sola tarjeta (variants), para no repetir tarjetas por cada capacidad. */
+function buildDefaultCatalog(){
+  let id = 1;
+  const map = new Map();
+  defaultData.forEach(group=>{
+    group.items.forEach(([name, capacity, price])=>{
+      const key = group.brand + "|" + name;
+      if(!map.has(key)){
+        map.set(key, {
+          id: id++,
+          brand: group.brand,
+          name,
+          specs: DEFAULT_SPECS,
+          variants: []
+        });
+      }
+      map.get(key).variants.push({capacity, price});
+    });
+  });
+  return [...map.values()];
+}
+
+let catalog = buildDefaultCatalog();
+let currentId = null;
+let currentVariantIdx = 0;
+let currentBrand = catalog[0] ? catalog[0].brand : null;
+let searchQuery = "";
+let currentSort = "default";
+let searchDebounce = null;
+
+function money(n){ return "L " + Number(n).toLocaleString('es-HN'); }
+function minPrice(variants){ return Math.min(...variants.map(v=>v.price)); }
+
+function slugify(s){
+  return String(s).toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,'-')
+    .replace(/(^-|-$)/g,'');
+}
+function productFolder(p){
+  return `images/${slugify(p.brand)}/${slugify(p.name)}/`;
+}
+function brandLogoPath(brand){
+  return `images/brands/${slugify(brand)}.png`;
+}
+function seriesKey(name){
+  return name.split(' ')[0];
+}
+function escapeHtml(s){
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+/* Intenta cargar una imagen probando varias extensiones; si ninguna
+   existe, ejecuta onFail. */
+function tryLoadImage(imgEl, basePath, filename, exts, onFail, onSuccess){
+  let i = 0;
+  function attempt(){
+    if(i >= exts.length){ onFail(); return; }
+    imgEl.onload = ()=>{ onSuccess && onSuccess(); };
+    imgEl.onerror = ()=>{ i++; attempt(); };
+    imgEl.src = basePath + filename + '.' + exts[i];
+  }
+  attempt();
+}
+
+function cssId(s){ return s.replace(/[^a-z0-9]/gi,'-'); }
+
+/* ===== BÚSQUEDA DIFUSA (tolera errores de escritura) ===== */
+function normalizeText(s){
+  return String(s).toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,' ')
+    .trim();
+}
+function levenshtein(a, b){
+  const m = a.length, n = b.length;
+  if(m === 0) return n;
+  if(n === 0) return m;
+  const dp = Array.from({length:m+1}, (_,i)=>[i, ...Array(n).fill(0)]);
+  for(let j=0;j<=n;j++) dp[0][j] = j;
+  for(let i=1;i<=m;i++){
+    for(let j=1;j<=n;j++){
+      const cost = a[i-1] === b[j-1] ? 0 : 1;
+      dp[i][j] = Math.min(
+        dp[i-1][j] + 1,
+        dp[i][j-1] + 1,
+        dp[i-1][j-1] + cost
+      );
+    }
+  }
+  return dp[m][n];
+}
+function tokenMatches(qToken, word){
+  if(!word) return false;
+  if(word.includes(qToken) || qToken.includes(word)) return true;
+  const dist = levenshtein(qToken, word);
+  const maxLen = Math.max(qToken.length, word.length);
+  const allowed = Math.min(4, Math.max(1, Math.floor(maxLen/2)));
+  return dist <= allowed;
+}
+function searchableWords(p){
+  const raw = p.brand + ' ' + p.name + ' ' + p.variants.map(v=>v.capacity).join(' ');
+  return normalizeText(raw).split(' ').filter(Boolean);
+}
+function fuzzyScore(query, product){
+  const qTokens = normalizeText(query).split(' ').filter(Boolean);
+  if(qTokens.length === 0) return 0;
+  const words = searchableWords(product);
+  let total = 0;
+  for(const qt of qTokens){
+    let best = 0;
+    for(const w of words){
+      if(w.includes(qt) || qt.includes(w)){ best = 1; break; }
+      const dist = levenshtein(qt, w);
+      const maxLen = Math.max(qt.length, w.length);
+      const sim = maxLen ? 1 - dist/maxLen : 0;
+      if(sim > best) best = sim;
+    }
+    if(!tokenMatches(qt, words.find(w=>true) || '') && best < 0.4) {
+      // ningún criterio, se revisa abajo con matches reales
+    }
+    let matched = false;
+    for(const w of words){ if(tokenMatches(qt, w)){ matched = true; break; } }
+    if(!matched) return -1;
+    total += best;
+  }
+  return total / qTokens.length;
+}
+function fuzzySearch(list, query){
+  return list
+    .map(p=>({p, score: fuzzyScore(query, p)}))
+    .filter(x=>x.score >= 0)
+    .sort((a,b)=>b.score - a.score)
+    .map(x=>x.p);
+}
+
+function applySortToList(list, sort){
+  if(sort === 'price-asc') return [...list].sort((a,b)=> minPrice(a.variants) - minPrice(b.variants));
+  if(sort === 'price-desc') return [...list].sort((a,b)=> minPrice(b.variants) - minPrice(a.variants));
+  return list;
+}
+
+/* ===== BUSCADOR / ORDEN — eventos ===== */
+function onSearchInput(value){
+  searchQuery = value;
+  document.getElementById('search-clear').style.display = value ? 'flex' : 'none';
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(renderMain, 150);
+}
+function clearSearch(){
+  searchQuery = '';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-clear').style.display = 'none';
+  renderMain();
+}
+function onSortChange(value){
+  currentSort = value;
+  renderMain();
+}
+
+/* ===== RENDER PRINCIPAL ===== */
+function renderTabs(){
+  const brands = [...new Set(catalog.map(p=>p.brand))];
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML = brands.map(b=>{
+    const theme = themeFor(b);
+    const logo = brandLogoPath(b);
+    return `<button class="tab-btn ${theme} ${b===currentBrand?'active':''}" onclick="setBrand('${b.replace(/'/g,"\\'")}')">
+      <img src="${logo}" alt="" onerror="this.remove()">
+      ${b}
+    </button>`;
+  }).join('');
+}
+function setBrand(b){ currentBrand = b; renderMain(); }
+
+function renderMain(){
+  const tabsEl = document.getElementById('tabs');
+  const wrap = document.getElementById('sections');
+  wrap.innerHTML = '';
+
+  if(searchQuery.trim()){
+    tabsEl.style.display = 'none';
+    const results = applySortToList(fuzzySearch(catalog, searchQuery), currentSort);
+    renderSearchResults(wrap, results);
+  } else {
+    tabsEl.style.display = 'flex';
+    renderTabs();
+    renderBrandSection(wrap);
+  }
+}
+
+function renderBrandSection(wrap){
+  const theme = themeFor(currentBrand);
+  let items = catalog.filter(p=>p.brand===currentBrand);
+  const section = document.createElement('div');
+  section.className = 'brand-section ' + theme;
+  section.innerHTML = `<h2><img src="${brandLogoPath(currentBrand)}" alt="" onerror="this.remove()">${currentBrand}</h2>`;
+  wrap.appendChild(section);
+
+  if(currentSort === 'default'){
+    const seriesMap = new Map();
+    items.forEach(p=>{
+      const key = seriesKey(p.name);
+      if(!seriesMap.has(key)) seriesMap.set(key, []);
+      seriesMap.get(key).push(p);
+    });
+    seriesMap.forEach((group, key)=>{
+      const label = document.createElement('div');
+      label.className = 'series-label';
+      label.textContent = `Serie ${key}`;
+      section.appendChild(label);
+      const grid = document.createElement('div');
+      grid.className = 'grid';
+      group.forEach(p=>grid.appendChild(cardEl(p, theme)));
+      section.appendChild(grid);
+    });
+  } else {
+    items = applySortToList(items, currentSort);
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    items.forEach(p=>grid.appendChild(cardEl(p, theme)));
+    section.appendChild(grid);
+  }
+}
+
+function renderSearchResults(wrap, results){
+  const header = document.createElement('div');
+  header.className = 'search-results-header';
+  if(results.length){
+    header.innerHTML = `${results.length} resultado${results.length===1?'':'s'} para "<strong>${escapeHtml(searchQuery)}</strong>"`;
+  }
+  wrap.appendChild(header);
+
+  if(results.length === 0){
+    const empty = document.createElement('div');
+    empty.className = 'search-empty';
+    const waMsg = encodeURIComponent('Hola, busco un equipo: ' + searchQuery);
+    empty.innerHTML = `
+      <p>No encontramos equipos que coincidan con "<strong>${escapeHtml(searchQuery)}</strong>".</p>
+      <p>Intenta con otro nombre o <a href="https://wa.me/${WA_NUMBER}?text=${waMsg}" target="_blank" rel="noopener">escríbenos por WhatsApp</a> y te ayudamos a encontrarlo.</p>
+    `;
+    wrap.appendChild(empty);
+    return;
+  }
+
+  const grid = document.createElement('div');
+  grid.className = 'grid';
+  results.forEach(p=>grid.appendChild(cardEl(p, themeFor(p.brand))));
+  wrap.appendChild(grid);
+}
+
+function cardEl(p, theme){
+  const card = document.createElement('div');
+  card.className = 'card ' + theme;
+  card.onclick = ()=> openModal(p.id);
+
+  const capLabel = p.variants.length > 1
+    ? `${p.variants.length} capacidades`
+    : p.variants[0].capacity;
+  const ctaLabel = p.variants.length > 1 ? 'Desde' : 'Precio';
+
+  card.innerHTML = `
+    <img class="card-logo" src="${brandLogoPath(p.brand)}" alt="" onerror="this.remove()">
+    <div class="card-img">${PHONE_ICON}</div>
+    <p class="card-name">${p.name}</p>
+    <p class="card-cap">${capLabel}</p>
+    <div class="card-price">
+      <span class="cta-text">
+        <span class="cta-label">${ctaLabel}</span>
+        <span class="cta-amount">${money(minPrice(p.variants))}</span>
+      </span>
+      <span class="cta-arrow">›</span>
+    </div>
+  `;
+
+  const imgBox = card.querySelector('.card-img');
+  const img = document.createElement('img');
+  tryLoadImage(img, productFolder(p), slugify(p.variants[0].capacity), ['jpg','jpeg','png','webp'],
+    ()=>{ /* sin imagen: se queda el ícono */ },
+    ()=>{ imgBox.innerHTML=''; imgBox.appendChild(img); }
+  );
+
+  return card;
+}
+
+/* ===== MODAL ===== */
+function openModal(id){
+  currentId = id;
+  currentVariantIdx = 0;
+  const p = catalog.find(x=>x.id===id);
+
+  document.getElementById('modal').className = 'modal ' + themeFor(p.brand);
+  document.getElementById('modal-name').innerText = p.name;
+  document.getElementById('modal-cap').innerText = p.brand;
+  document.getElementById('modal-specs').innerText = p.specs || "";
+
+  buildVariantRow(p);
+  buildCarousel(p);
+  updateVariantDisplay(p);
+
+  document.getElementById('overlay').classList.add('show');
+}
+function closeModal(){
+  document.getElementById('overlay').classList.remove('show');
+  currentId = null;
+}
+
+function buildVariantRow(p){
+  const row = document.getElementById('variant-row');
+  if(p.variants.length <= 1){ row.innerHTML=''; return; }
+  row.innerHTML = p.variants.map((v,i)=>
+    `<button class="variant-pill ${i===0?'active':''}" data-idx="${i}" onclick="selectVariant(${i})">${v.capacity}</button>`
+  ).join('');
+}
+function selectVariant(i, shouldScroll){
+  if(shouldScroll === undefined) shouldScroll = true;
+  currentVariantIdx = i;
+  const p = catalog.find(x=>x.id===currentId);
+  document.querySelectorAll('.variant-pill').forEach(el=>{
+    el.classList.toggle('active', Number(el.dataset.idx)===i);
+  });
+  document.querySelectorAll('.carousel-dot').forEach((d,idx)=>{
+    d.classList.toggle('active', idx===i);
+  });
+  updateVariantDisplay(p);
+  if(shouldScroll){
+    const track = document.getElementById('carousel-track');
+    const slide = track.children[i];
+    if(slide) track.scrollTo({left: slide.offsetLeft, behavior:'smooth'});
+  }
+}
+function updateVariantDisplay(p){
+  const v = p.variants[currentVariantIdx];
+  document.getElementById('modal-price').innerText = money(v.price);
+  const msg = encodeURIComponent(`Hola, me interesa el ${p.name} (${v.capacity}) por ${money(v.price)}.`);
+  document.getElementById('modal-wa').href = `https://wa.me/${WA_NUMBER}?text=${msg}`;
+}
+
+/* ===== CARRUSEL — una foto por capacidad, deslizar cambia de capacidad ===== */
+function buildCarousel(p){
+  const track = document.getElementById('carousel-track');
+  const dotsWrap = document.getElementById('carousel-dots');
+  track.innerHTML = '';
+  dotsWrap.innerHTML = '';
+
+  const base = productFolder(p);
+
+  p.variants.forEach((v, i)=>{
+    const slide = document.createElement('div');
+    slide.className = 'carousel-slide';
+    const img = document.createElement('img');
+    slide.appendChild(img);
+    track.appendChild(slide);
+    tryLoadImage(img, base, slugify(v.capacity), ['jpg','jpeg','png','webp'],
+      ()=>{ slide.classList.add('carousel-fallback'); slide.innerHTML = PHONE_ICON; },
+      ()=>{}
+    );
+  });
+
+  if(p.variants.length > 1){
+    dotsWrap.innerHTML = p.variants.map((_,i)=>`<div class="carousel-dot ${i===0?'active':''}"></div>`).join('');
+    const slides = [...track.querySelectorAll('.carousel-slide')];
+    const observer = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          const idx = slides.indexOf(entry.target);
+          if(idx !== -1 && idx !== currentVariantIdx) selectVariant(idx, false);
+        }
+      });
+    }, {root: track, threshold:0.6});
+    slides.forEach(s=>observer.observe(s));
+  }
+}
+
+/* ===== INIT ===== */
+document.getElementById('wa-float').href =
+  `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hola, quisiera información sobre sus equipos.')}`;
+
+document.getElementById('store-logo').onerror = function(){
+  this.style.display = 'none';
+  document.getElementById('logo-fallback').style.display = 'flex';
+};
+
+renderMain();
+</script>
+</body>
+</html>
